@@ -4,12 +4,18 @@
 var app = angular.module('topics', [
     'ngRoute',
     'restangular',
-    'topics.add_category',
-    'topics.view2',
-    'topics.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/home'});
+  $routeProvider
+      .when('/add_category', {
+          templateUrl: 'add_category/add_category.html',
+          controller: 'addCategoryController'
+      })
+      .when("/home", {
+          templateUrl: "home/home.html",
+          controller: "homeController"
+      })
+      .otherwise({redirectTo: '/home'});
 }]);
 
 app.config(function(RestangularProvider) {

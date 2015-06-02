@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('topics.add_category', ['ngRoute'])
+var app = angular.module('topics');
 
-    .config(['$routeProvider', function($routeProvider) {
+    app.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/add_category', {
             templateUrl: 'add_category/add_category.html',
             controller: 'addCategoryController'
@@ -20,4 +20,18 @@ angular.module('topics.add_category', ['ngRoute'])
 
             $location.path('/home');
         };
-    }]);
+    }])
+
+    .controller('ItemsController', [function($scope, $location, Restangular) {
+        $scope.items = [];
+
+        $scope.deleteItem = function (index) {
+            items.splice(index, 1);
+        }
+        $scope.addItem = function (index) {
+            items.push({
+                id: $scope.items.data.length + 1,
+                title: $scope.newItemName
+            });
+        }
+    }])

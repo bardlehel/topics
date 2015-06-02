@@ -11,6 +11,13 @@ angular.module('topics.home', ['ngRoute'])
 
     .controller('homeController', [function($scope, $location, Restangular) {
 
+        $scope.selectedTags = [];
+
+
+
+        //internal functions
+
+        function init() {
             //get topics
             var baseTopics = Restangular.all('topics');
             baseTopics.getList().then(function(topics) {
@@ -18,5 +25,12 @@ angular.module('topics.home', ['ngRoute'])
             });
 
             //get rated tags
+            var baseTags = Restangular.all('rated_tags');
+            baseTags.getList().then(function(tags){
+                $scope.tags = tags;
+            });
+        };
 
+
+        init();
     }]);
