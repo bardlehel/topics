@@ -59,6 +59,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//load static resources
 app.use(express.static(path.join(__dirname, '../client/app')));
 
 //configure routes
@@ -66,11 +68,13 @@ var routes = require('./routes/index')(passport);
 var users = require('./routes/users');
 var categories = require('./routes/categories');
 var topics = require('./routes/topics');
+var tags = require('./routes/rated_tags.js');
 
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/categories', categories);
 app.use('/api/topics', topics);
+app.use('/api/rated_tags', tags);
 
 
 // catch 404 and forward to error handler

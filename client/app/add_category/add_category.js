@@ -9,29 +9,40 @@ var app = angular.module('topics');
         });
     }])
 
-    .controller('addCategoryController', [function($scope, $location, Restangular) {
-        $scope.newCategory = {};
-        $scope.submitted = false;
+    .controller('addCategoryController', function($scope, $location, Restangular, typeaheadDataFactory) {
+            $scope.newCategory = {};
+            $scope.newCategory.properties = [];
+            $scope.parents = [];
+            $scope.parent = '';
+            $scope.submitted = false;
 
-        $scope.submitCategory = function() {
-            var categories = Restangular.all('categories');
-            categories.post($scope.newCategory);
-            $scope.submitted = true;
+            $scope.deleteProperty= function (index) {
+                $scope.newCategory.properties.splice(index, 1);
+            }
 
-            $location.path('/home');
-        };
-    }])
+            $scope.addProperty = function (index) {
+                $scope.newCategory.properties.push({
+                    id: $scope.newCategory.properties.length + 1,
+                });
+            }
 
-    .controller('ItemsController', [function($scope, $location, Restangular) {
-        $scope.items = [];
+            $scope.onParentSelected = function() {
+                $scope.newCategory.parentId = $scope.itemId;
+            }
 
-        $scope.deleteItem = function (index) {
-            items.splice(index, 1);
-        }
-        $scope.addItem = function (index) {
-            items.push({
-                id: $scope.items.data.length + 1,
-                title: $scope.newItemName
-            });
-        }
-    }])
+            $scope.onKeyDown = function() {
+                $scope.selected=false;
+
+                typeaheadDataFactory.get('/api/categories/search?q='+$scope.parent).then(function(data){
+                    $scope.parents=data;
+                });
+            }
+
+           $scope.submitCategory = function() {
+                var categories = Restangular.all('categories');
+                categories.post($scope.newCategory);
+                $scope.submitted = true;
+
+                $location.path('/home');
+            };
+    });

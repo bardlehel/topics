@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var RatedTagSchema = new mongosee.Schema({
+var RatedTagSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: String,
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},

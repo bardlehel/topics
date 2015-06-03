@@ -12,6 +12,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/search', function(req, res, next){
+    Category.find({name: new RegExp('^'+req.params.q+'$', "i")}, function(err, categories) {
+        if(err) res.send(err);
+
+        res.json(categories);
+    });
+});
+
 //GET single entry by id
 router.get('/:category_id', function(req, res, next) {
     Category.findById(req.params.category_id, function(err, category) {

@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('topics.add_category', ['ngRoute'])
+var app = angular.module('topics');
 
-    .config(['$routeProvider', function($routeProvider) {
+    app.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/add_topic', {
             templateUrl: 'add_topic/add_topic.html',
             controller: 'addTopicController'
         });
     }])
 
-    .controller('addTopicController', [function($scope, $location, Restangular) {
+    .controller('addTopicController', function($scope, $location, Restangular) {
         $scope.newTopic = {};
         $scope.submitted = false;
 
@@ -20,4 +20,4 @@ angular.module('topics.add_category', ['ngRoute'])
 
             $location.path('/home');
         };
-    }]);
+    });

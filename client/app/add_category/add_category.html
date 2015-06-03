@@ -1,21 +1,38 @@
 <div>
-    <ul ng-controller="ItemsController" class="nav">
-        <input type="text" value="ItemName" ng-model="newItemName"
-               placeholder="name of new item...">
-        <button ng-click="addItem()">Add Property</button>
-        <li ng-repeat="item in items" id="item{{item.id}}">
+    <h1>Add a new Category</h1>
+
+    <form ng-submit="submitCategory()">
+        <div>
             <label>Name:</label>
-            <input type="text" value="{{item.name}}" />
-            <label>Type:</label>
-            <select>
-                <option>Text</option>
-                <option>Number</option>
-                <option>Date</option>
-                <option>Time</option>
-                <option>URL</option>
-                <option>Location</option>
-            </select>
-            <a ng-click="deleteItem($index)" class="delete-item">x</a>
-        </li>
-    </ul>
+            <input type="text" ng-model="newCategory.name" />
+        </div>
+
+        <div>
+            <label>Parent Category:</label>
+            <div class="container">
+                <typeahead items="items" prompt="Category Name..." title="name" subtitle="abbreviation" model="parent" on-select="onItemSelected()" />
+            </div>
+        </div>
+
+        <label>Properties</label>
+        <ul class="nav">
+            <button ng-click="addProperty()">Add Property</button>
+            <li ng-repeat="property in newCategory.properties" id="property{{property.id}}">
+                <label>Name:</label>
+                <input type="text" ng-model="newCategory.properties[$index].name" />
+                <label>Type:</label>
+                <select ng-model="newCategory.properties[$index].type">
+                    <option>Text</option>
+                    <option>Number</option>
+                    <option>Date</option>
+                    <option>Time</option>
+                    <option>URL</option>
+                    <option>Location</option>
+                </select>
+                <a ng-click="deleteProperty($index)" class="delete-item">x</a>
+            </li>
+        </ul>
+
+        <input type="submit" value="submit" />
+    </form>
 </div>

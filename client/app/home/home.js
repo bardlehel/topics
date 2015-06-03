@@ -1,22 +1,20 @@
 'use strict';
 
-angular.module('topics.home', ['ngRoute'])
+var app = angular.module('topics');
 
-    .config(['$routeProvider', function($routeProvider) {
+    app.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/home', {
             templateUrl: 'home/home.html',
             controller: 'homeController'
         });
     }])
 
-    .controller('homeController', [function($scope, $location, Restangular) {
+    .controller('homeController', function($scope, $location, Restangular) {
 
         $scope.selectedTags = [];
 
 
-
         //internal functions
-
         function init() {
             //get topics
             var baseTopics = Restangular.all('topics');
@@ -33,4 +31,4 @@ angular.module('topics.home', ['ngRoute'])
 
 
         init();
-    }]);
+    });
