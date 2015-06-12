@@ -4,13 +4,24 @@ var Category = require('../models/category.js');
 var passport = require('passport');
 
 
-/* GET users listing. */
+// GET all categories or if query params exist, use to limit results
 router.get('/', function(req, res, next) {
-    Category.find({}, function(err, categories) {
-        if (err)res.send(err);
 
-        res.json(categories);
-    });
+    //limit for params: name
+    if(_.contains(req.query, 'name')) {
+        Category.find({'name': req.query.name}, function(err, categories) {
+            if (err)res.send(err);
+
+            res.json(categories);
+        });
+    }
+    else {
+        Category.find({}, function(err, categories) {
+            if (err)res.send(err);
+
+            res.json(categories);
+        });
+    }
 });
 
 router.get('/search', function(req, res, next){
@@ -30,6 +41,7 @@ router.get('/:category_id', function(req, res, next) {
         res.json(category);
     });
 });
+
 
 //POST new category
 router.post('/'/*, passport.authenticate('token')*/, function(req, res, next) {

@@ -26,12 +26,30 @@ app.factory("Categories", function($resource) {
         update: {
             method: 'PUT' // this method issues a PUT request
         },
-        query: {method: 'GET', isArray: false },
+        query: {method: 'GET', isArray: true },
         get: {method: 'GET', isArray: false }
     });
 });
 
 app.factory("Topics", function($resource) {
-    return $resource("/api/topics/:topic_id");
+    return $resource('/api/topics/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        },
+        query: {method: 'GET', isArray: false },
+        get: {method: 'GET', isArray: false }
+    });
 });
+
+app.service("Scraper", function($http){
+
+    this.getTextFromXPath = function(xpath) {
+        var text = '';
+
+        var parse = new DOMParser();
+
+        return text;
+    }
+
+})
 

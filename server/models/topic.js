@@ -20,6 +20,7 @@ var PropertySchema = new mongoose.Schema({
     value: String
 });
 
+
 var RatingSchema = new mongoose.Schema({
     tag: {type: mongoose.Schema.Types.ObjectId, ref: 'RatedTag'},
     up_votes: Number,
