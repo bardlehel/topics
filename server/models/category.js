@@ -4,21 +4,23 @@ var PropertySchema = new mongoose.Schema({
     type: {
         type: String,
         enum: [
-            'text',
-            'number',
-            'url',
-            'date',
-            'geocode',
-            'date',
-            'time',
-            'day_of_week',
-            'start_index',
-            'end_index'
+            'Text',
+            'Number',
+            'Url',
+            'Date',
+            'Geocode',
+            'Date',
+            'Time',
+            'Day_of_week',
+            'Start_index',
+            'End_index'
         ]
     } });
 
-module.exports = mongoose.model('Category',{
-    _id: mongoose.Schema.Types.ObjectId,
+var mongoosePaginate = require('mongoose-paginate');
+
+var CategorySchema = new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
     parent_id:  {type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
     name: String,
     up_votes: Number,
@@ -28,3 +30,7 @@ module.exports = mongoose.model('Category',{
     last_publish_date: mongoose.Schema.Types.Date,
     properties: [PropertySchema]
 });
+
+CategorySchema.plugin(mongoosePaginate);
+
+module.exports = mongoose.model('Category', CategorySchema);

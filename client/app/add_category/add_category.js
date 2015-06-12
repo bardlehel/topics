@@ -9,12 +9,15 @@ var app = angular.module('topics');
         });
     }])
 
-    .controller('addCategoryController', function($scope, $location, Restangular, typeaheadDataFactory) {
+
+    .controller('addCategoryController', function($scope, $location, Categories, typeaheadDataFactory) {
             $scope.newCategory = {};
             $scope.newCategory.properties = [];
+            $scope.newCategory.inheritedProperties = [];
             $scope.parents = [];
-            $scope.parent = '';
-            $scope.submitted = false;
+            $scope.parent_id = '';
+            $scope.items = [];
+            $scope.parent_name="";
 
             $scope.deleteProperty= function (index) {
                 $scope.newCategory.properties.splice(index, 1);
@@ -22,27 +25,39 @@ var app = angular.module('topics');
 
             $scope.addProperty = function (index) {
                 $scope.newCategory.properties.push({
-                    id: $scope.newCategory.properties.length + 1,
-                });
-            }
-
-            $scope.onParentSelected = function() {
-                $scope.newCategory.parentId = $scope.itemId;
-            }
-
-            $scope.onKeyDown = function() {
-                $scope.selected=false;
-
-                typeaheadDataFactory.get('/api/categories/search?q='+$scope.parent).then(function(data){
-                    $scope.parents=data;
+                    //id: $scope.newCategory.properties.length + 1
                 });
             }
 
            $scope.submitCategory = function() {
-                var categories = Restangular.all('categories');
-                categories.post($scope.newCategory);
-                $scope.submitted = true;
+               console.log(JSON.stringify($scope.newCategory));
+                //package new category properly to submit
+                var category = $scope.newCategory;
+                Categories.save(category, function(savedCategory){
+                    $location.path('/category/' + savedCategory._id);
+                });
 
-                $location.path('/home');
+            };
+
+            $scope.loadParentProperties = function (categoryId) {
+                Categories.get({id:categoryId}, function(category) {
+                    $scope.newCategory.inheritedProperties = category.properties;
+                });
+            }
+
+            $scope.onItemSelected=function(){
+                //get parent's properties
+                $scope.loadParentProperties($scope.newCategory.parent_id);
+            }
+
+            $scope.onKeyUp = function() {
+                $scope.selected = false;
+                $scope.items = [];
+                typeaheadDataFactory.get('/api/categories/search?q=' + $scope.parent_name).then(function (data) {
+                    $scope.items = data;
+                });
             };
     });
+
+
+

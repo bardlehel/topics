@@ -3,6 +3,7 @@ var router = express.Router();
 var Category = require('../models/category.js');
 var passport = require('passport');
 
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     Category.find({}, function(err, categories) {
@@ -13,7 +14,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/search', function(req, res, next){
-    Category.find({name: new RegExp('^'+req.params.q+'$', "i")}, function(err, categories) {
+    var r = new RegExp(req.query.q,'i');
+    Category.find({name: {$regex : r}}, function(err, categories) {
         if(err) res.send(err);
 
         res.json(categories);
@@ -30,20 +32,21 @@ router.get('/:category_id', function(req, res, next) {
 });
 
 //POST new category
-router.post('/', passport.authenticate('token'), function(req, res, next) {
+router.post('/'/*, passport.authenticate('token')*/, function(req, res, next) {
     var category = new Category();
 
-    category.name = req.body.name;
-    category.parent_id = req.body.parent_id;
-    category.author = req.user._id;
-    category.creation_date = Date.now;
-    category.last_publish_date = Date.now;
+    var newCategory = req.body;
+    category.name = newCategory.name;
+    category.parent_id = newCategory.parent_id;
+    category.author = null;//req.user.id;
+    category.creation_date = Date.now();
+    category.last_publish_date = Date.now();
     category.up_votes = 1;
-    category.properties = JSON.parse(req.body.properties);
+    category.properties = newCategory.properties;
 
     category.save(function(err) {
-        if (err)res.send(err);
-        res.json({'message' : 'category was added'});
+        if (err){ res.send('error = ' + err); return; }
+        res.json(category);
     });
 });
 

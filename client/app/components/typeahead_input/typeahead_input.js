@@ -9,12 +9,13 @@ app.directive('typeahead', function($timeout) {
             title: '@',
             subtitle:'@',
             model: '=',
+            value: '=',
             onSelect:'&'
         },
         link:function(scope,elem,attrs){
             scope.handleSelection=function(selectedItem){
                 scope.model=selectedItem.name;
-                scope.itemId = selectedItem._id;
+                scope.value=selectedItem._id;
                 scope.current=0;
                 scope.selected=true;
                 $timeout(function(){
@@ -30,7 +31,9 @@ app.directive('typeahead', function($timeout) {
                 scope.current=index;
             };
         },
-        templateUrl: 'typeahead_input.html'
+        templateUrl: function(elem,attrs) {
+            return attrs.templateUrl;
+        }
     }
 });
 
@@ -43,3 +46,5 @@ app.factory('typeaheadDataFactory', function($http) {
         }
     };
 });
+
+

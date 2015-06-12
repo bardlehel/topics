@@ -21,6 +21,10 @@
     "angular-bootstrap": "~0.10",
     "moment": "~2.5",
     "less.js": "~1.6",
-    "font-awesome": "~4.0"
+    "font-awesome": "~4.0",
+    "html5-boilerplate": "~5.2.0",
+    "angular-loader": "~1.4.0",
+    "lodash": "~3.9.3",
+    "restangular": "~1.5.1"
   }
 }

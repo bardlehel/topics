@@ -1,7 +1,7 @@
 <div>
     <h1>Add a new Category</h1>
 
-    <form ng-submit="submitCategory()">
+   <form ng-submit="submitCategory()">
         <div>
             <label>Name:</label>
             <input type="text" ng-model="newCategory.name" />
@@ -9,14 +9,26 @@
 
         <div>
             <label>Parent Category:</label>
-            <div class="container">
-                <typeahead items="items" prompt="Category Name..." title="name" subtitle="abbreviation" model="parent" on-select="onItemSelected()" />
+            <div class="container" >
+                <typeahead template-url="components/typeahead_input/templates/parent_category_input.html" ng-keyup="onKeyUp()" items="items" prompt="Parent Category..." title="parent_name" subtitle="abbreviation" model="parent_name" value="newCategory.parent_id " on-select="onItemSelected()" />
             </div>
         </div>
 
+       <div class="parent-properties">
+           <label>Parent Properties</label>
+           <ul class="nav">
+               <li ng-repeat="property in newCategory.inheritedProperties">
+                   <label>Name:</label>
+                   <input type="text" ng-model="newCategory.inheritedProperties[$index].name" />
+                   <label>Type:</label>
+                   <input type="text" ng-model="newCategory.inheritedProperties[$index].type" />
+               </li>
+           </ul>
+       </div>
+
         <label>Properties</label>
         <ul class="nav">
-            <button ng-click="addProperty()">Add Property</button>
+            <button type="button" ng-click="addProperty()">Add Property</button>
             <li ng-repeat="property in newCategory.properties" id="property{{property.id}}">
                 <label>Name:</label>
                 <input type="text" ng-model="newCategory.properties[$index].name" />

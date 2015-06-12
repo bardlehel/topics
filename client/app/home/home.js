@@ -9,7 +9,7 @@ var app = angular.module('topics');
         });
     }])
 
-    .controller('homeController', function($scope, $location, Restangular) {
+    .controller('homeController', function($scope, $location, Topics) {
 
         $scope.selectedTags = [];
 
@@ -17,16 +17,16 @@ var app = angular.module('topics');
         //internal functions
         function init() {
             //get topics
-            var baseTopics = Restangular.all('topics');
-            baseTopics.getList().then(function(topics) {
+            Topics.query.then(function(topics) {
                 $scope.topics = topics;
             });
 
             //get rated tags
-            var baseTags = Restangular.all('rated_tags');
+/*
             baseTags.getList().then(function(tags){
                 $scope.tags = tags;
             });
+            */
         };
 
 

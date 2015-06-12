@@ -3,6 +3,7 @@ var router = express.Router();
 var Topic = require('../models/topic.js');
 var passport = require('passport');
 
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     Topic.find({}, function(err, topics) {

@@ -3,21 +3,35 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('topics', [
     'ngRoute',
-    'restangular',
+    'ngResource',
 ]).
 config(['$routeProvider', function($routeProvider) {
+
   $routeProvider
-      .when('/add_category', {
+      /*.when('/add_category', {
           templateUrl: 'add_category/add_category.html',
           controller: 'addCategoryController'
       })
       .when("/home", {
           templateUrl: "home/home.html",
           controller: "homeController"
-      })
+      })*/
       .otherwise({redirectTo: '/home'});
 }]);
 
-app.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('/api');
+//consume RESTful API from server
+
+app.factory("Categories", function($resource) {
+    return $resource('/api/categories/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        },
+        query: {method: 'GET', isArray: false },
+        get: {method: 'GET', isArray: false }
+    });
 });
+
+app.factory("Topics", function($resource) {
+    return $resource("/api/topics/:topic_id");
+});
+

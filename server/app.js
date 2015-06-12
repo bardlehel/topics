@@ -30,29 +30,6 @@ initPassport(passport);
 var flash = require('connect-flash');
 app.use(flash());
 
-var TokenStrategy = require('passport-accesstoken').Strategy;
-
-passport.use(new TokenStrategy(
-    function (token, done) {
-      User.findOne({token: token}, function (err, user) {
-        if (err) {
-          return done(err);
-        }
-
-        if (!user) {
-          return done(null, false);
-        }
-
-        if (!user.verifyToken(token)) {
-          return done(null, false);
-        }
-
-        return done(null, user);
-      });
-    }
-));
-
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));

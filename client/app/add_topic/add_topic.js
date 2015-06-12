@@ -9,15 +9,14 @@ var app = angular.module('topics');
         });
     }])
 
-    .controller('addTopicController', function($scope, $location, Restangular) {
+    .controller('addTopicController', function($scope, $location, Topics) {
         $scope.newTopic = {};
         $scope.submitted = false;
 
-        $scope.submitCategory = function() {
-            var topics = Restangular.all('topics');
-            topics.post($scope.newTopic);
+        $scope.submitTopic = function() {
+            Topics.save($scope.newTopic);
             $scope.submitted = true;
 
-            $location.path('/home');
+            //$location.path('/home');
         };
     });
